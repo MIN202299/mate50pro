@@ -9,6 +9,7 @@ abs_path = os.path.abspath('.')
 
 webdriver_path = os.path.join(abs_path, 'webdriver/chromedriver')
 
+user_profile = os.path.join(abs_path, 'userprofile')
 # 休眠
 # secTime = int(time.mktime(time.strptime('2022-09-12 10:06:00', '%Y-%m-%d %H:%M:%S'))) * 1000
 #
@@ -28,7 +29,7 @@ driver.get('https://www.vmall.com/product/10086238622707.html')
 
 # 倒计时结束开抢
 
-ToCountDown = 30
+chrome_options.add_argument(r'--user-data-dir=/Users/duanduan/Library/Application Support/Google/Chrome/Default')
 
 for i in range(ToCountDown):
     time.sleep(1)
