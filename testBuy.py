@@ -1,5 +1,3 @@
-from ast import main
-from sqlite3 import Timestamp
 from selenium import webdriver
 from multiprocessing import Process
 from selenium.webdriver.chrome.service import Service as ChromeService
@@ -33,7 +31,7 @@ def buyPhone():
   mall_btn = driver.find_element(By.ID, 'pro-operation').find_element(By.CLASS_NAME, 'product-button02')
   if mall_btn.text == '立即登录':
     mall_btn.click()
-  print('-----------请在120秒内手动扫码登录账号准备开抢---------------------')  
+  print('---------------------请在120秒内手动扫码登录账号准备开抢---------------------')  
   # 在此期间手动登录  
   time.sleep(120)
   print('[{0}] {1}:准备开抢'.format(os.getpid(), time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())))
