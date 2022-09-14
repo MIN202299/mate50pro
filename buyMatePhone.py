@@ -13,8 +13,10 @@ GOODS_URL = 'https://www.vmall.com/product/10086238622707.html'
 CHROME_DRIVER_PATH = os.path.join(os.path.abspath('.'), 'webdriver/chromedriver')
 
 # chrome user profile mac os chrome://version 可以查看
-CHROME_USER_DATA = '/Users/duanduan/Library/Application Support/Google/Chrome/Default'
+CHROME_USER_DATA = r'C:/Users/pm/AppData/Local/Google/Chrome/User Data/Default'
 
+BEGIN_GO = '2022-09-14 10:07:50'
+END = '2022-09-14 10:09:50'
 
 def loginMall():
     print(USER_CONFIG)
@@ -37,15 +39,38 @@ def loginMall():
         el_login_btn.click()
         # 等待加载出dialog
         time.sleep(5)
-        el_get_auth_code = driver.find_element(By.CLASS_NAME, 'hwid-getAuthCode')
-        el_get_auth_code.click()
-        time.sleep(10)
-        is_login = True
+        if driver.current_url == 'https://www.vmall.com/index.html':
+            is_login = True
+        else:
+            el_get_auth_code = driver.find_element(By.CLASS_NAME, 'hwid-getAuthCode')
+            el_get_auth_code.click()
+            time.sleep(10)
+            is_login = True
     except Exception as err:
         print('找不到元素，请尝试增加等待时常', err)
         # driver.quit()
     if is_login:
-        # driver.get(GOODS_URL)
+        driver.get(GOODS_URL)
+        time.sleep(3)
+        mall_btn = driver.find_element(By.ID, 'pro-operation').find_element(By.CLASS_NAME, 'product-button02')
+        if mall_btn.text == '立即登录':
+            mall_btn.click()
+        time.sleep(5)
+        mall_btn = driver.find_element(By.ID, 'pro-operation').find_element(By.CLASS_NAME, 'product-button02')    
+        print(mall_btn.text)
+        print(mall_btn.get_attribute('class'))
+        print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime()) + '准备开抢')
+        timestamp = time.mktime(time.strptime(BEGIN_GO, '%Y-%m-%d %H:%M:%S'))
+        while True:
+            if time.time() > timestamp:
+                try:
+                    mall_btn = driver.find_element(By.ID, 'pro-operation').find_element(By.CLASS_NAME, 'product-button02')
+                    if mall_btn.get_attribute('class') != 'product-button02 disabled':
+                        mall_btn.click()
+                        print('click')
+                except Exception as err:
+                    mall_btn = driver.find_element(By.ID, 'pro-operation').find_element(By.CLASS_NAME, 'product-button02')
+                    print(err)
         pass
 
 if __name__ == '__main__':
